@@ -398,7 +398,7 @@
               }
             ]
           },
-          "unit": "dtdhms"
+          "unit": "dthms"
         },
         "overrides": []
       },
@@ -453,7 +453,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -509,7 +509,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_adapter_power_watts{instance=~\"\"}",
+          "expr": "macos_adapter_power_watts{instance=~\"$instance\"}",
           "legendFormat": "Adapter Power",
           "refId": "A"
         }
@@ -520,7 +520,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -576,7 +576,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_system_load_watts{instance=~\"\"}",
+          "expr": "macos_system_load_watts{instance=~\"$instance\"}",
           "legendFormat": "System Load",
           "refId": "A"
         }
@@ -587,7 +587,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -643,7 +643,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_battery_charge_watts{instance=~\"\"}",
+          "expr": "macos_battery_charge_watts{instance=~\"$instance\"}",
           "legendFormat": "Battery Charge Power",
           "refId": "A"
         }
@@ -654,7 +654,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -702,7 +702,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_adapter_max_watts{instance=~\"\"}",
+          "expr": "macos_adapter_max_watts{instance=~\"$instance\"}",
           "legendFormat": "Adapter Rating",
           "refId": "A"
         }
@@ -713,7 +713,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -878,22 +878,22 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_adapter_power_watts{instance=~\"\"}",
+          "expr": "macos_adapter_power_watts{instance=~\"$instance\"}",
           "legendFormat": "Adapter Power Draw",
           "refId": "Adapter"
         },
         {
-          "expr": "macos_system_load_watts{instance=~\"\"}",
+          "expr": "macos_system_load_watts{instance=~\"$instance\"}",
           "legendFormat": "System Power Consumption",
           "refId": "System"
         },
         {
-          "expr": "macos_battery_charge_watts{instance=~\"\"}",
+          "expr": "macos_battery_charge_watts{instance=~\"$instance\"}",
           "legendFormat": "Battery Charge (+Charge / -Discharge)",
           "refId": "Battery"
         },
         {
-          "expr": "macos_adapter_max_watts{instance=~\"\"}",
+          "expr": "macos_adapter_max_watts{instance=~\"$instance\"}",
           "legendFormat": "Adapter Max Rating",
           "refId": "MaxRating"
         }
@@ -981,6 +981,10 @@
               "options": "Total Physical RAM"
             },
             "properties": [
+              {
+                "id": "custom.stacking.mode",
+                "value": "none"
+              },
               {
                 "id": "custom.lineStyle",
                 "value": {
@@ -1649,5 +1653,5 @@
   "timezone": "",
   "title": "macOS Node Exporter (Darwin)",
   "uid": "macos-node-exporter-full",
-  "version": 3
+  "version": 4
 }
