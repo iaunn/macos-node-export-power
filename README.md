@@ -19,7 +19,7 @@ A lightweight macOS power and battery telemetry collector for Prometheus & `node
 ## 1. Build the Collector
 
 ```bash
-cd /Users/iaunn/workspace/iaunn/export-power
+cd export-power
 go build -o macos-power-collector main.go
 ```
 
@@ -27,18 +27,18 @@ go build -o macos-power-collector main.go
 
 ## 2. Running `node_exporter` with Textfile Collector
 
-`node_exporter` needs the `--collector.textfile.directory` flag pointed to the folder where `macos-power-collector` outputs its `.prom` files.
+`node_exporter` needs the `--collector.textfile.directory` flag pointed to the folder where `macos-power-collector` outputs its `.prom` files (e.g. `./textfile` or `/opt/node_exporter/textfile`).
 
 ### Step 2.1: Prepare Output Directory
 ```bash
-mkdir -p /Users/iaunn/workspace/iaunn/export-power/textfile
+mkdir -p ./textfile
 ```
 
 ### Step 2.2: Run `node_exporter`
 
 #### Option A: Direct Command Line / Testing
 ```bash
-node_exporter --collector.textfile.directory=/Users/iaunn/workspace/iaunn/export-power/textfile
+node_exporter --collector.textfile.directory=$(pwd)/textfile
 ```
 *(By default, `node_exporter` listens on `http://localhost:9100/metrics`)*
 
@@ -50,7 +50,7 @@ If you run `node_exporter` via Homebrew, edit its LaunchAgent plist:
 ```
 Add the argument under `<array>`:
 ```xml
-<string>--collector.textfile.directory=/Users/iaunn/workspace/iaunn/export-power/textfile</string>
+<string>--collector.textfile.directory=/path/to/export-power/textfile</string>
 ```
 Then restart the service:
 ```bash
@@ -69,7 +69,7 @@ pm2 start ./macos-power-collector \
   --name "macos-power" \
   -- \
   -interval=10s \
-  -out-dir=/Users/iaunn/workspace/iaunn/export-power/textfile
+  -out-dir=./textfile
 ```
 
 Manage with:
@@ -91,9 +91,9 @@ Create `~/Library/LaunchAgents/com.user.macos-power-collector.plist`:
     <string>com.user.macos-power-collector</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/iaunn/workspace/iaunn/export-power/macos-power-collector</string>
+        <string>/path/to/export-power/macos-power-collector</string>
         <string>-interval=10s</string>
-        <string>-out-dir=/Users/iaunn/workspace/iaunn/export-power/textfile</string>
+        <string>-out-dir=/path/to/export-power/textfile</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
