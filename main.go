@@ -24,6 +24,8 @@ var (
 	reVoltage        = regexp.MustCompile(`"Voltage"\s*=\s*(\d+)`)
 	reIsCharging     = regexp.MustCompile(`"IsCharging"\s*=\s*(Yes|No)`)
 	reExternalConn   = regexp.MustCompile(`"ExternalConnected"\s*=\s*(Yes|No)`)
+	reBatteryTemp    = regexp.MustCompile(`"Temperature"\s*=\s*(\d+)`)
+	reVirtualTemp    = regexp.MustCompile(`"VirtualTemperature"\s*=\s*(\d+)`)
 )
 
 func extractMetric(re *regexp.Regexp, text string) float64 {
@@ -157,6 +159,11 @@ func collectAndWrite(outDir string) error {
 		isChargingVal = 1
 	}
 
+	batteryTempRaw := extractMetric(reBatteryTemp, text)
+	virtualTempRaw := extractMetric(reVirtualTemp, text)
+	batteryTempCelsius := batteryTempRaw / 100.0
+	virtualTempCelsius := virtualTempRaw / 100.0
+
 	content := fmt.Sprintf(`# HELP macos_adapter_power_watts System power drawn from adapter in Watts
 # TYPE macos_adapter_power_watts gauge
 macos_adapter_power_watts %.3f
@@ -176,7 +183,15 @@ macos_adapter_max_watts %.0f
 # HELP macos_battery_charging Whether battery is currently charging (1=yes, 0=no)
 # TYPE macos_battery_charging gauge
 macos_battery_charging %.0f
-`, adapterPowerWatts, systemLoadWatts, batteryChargeWatts, adapterWatts, isChargingVal)
+
+# HELP macos_battery_temperature_celsius Battery temperature in degrees Celsius
+# TYPE macos_battery_temperature_celsius gauge
+macos_battery_temperature_celsius %.2f
+
+# HELP macos_virtual_temperature_celsius PMU virtual enclosure temperature in degrees Celsius
+# TYPE macos_virtual_temperature_celsius gauge
+macos_virtual_temperature_celsius %.2f
+`, adapterPowerWatts, systemLoadWatts, batteryChargeWatts, adapterWatts, isChargingVal, batteryTempCelsius, virtualTempCelsius)
 
 	// Fetch macmon metrics if available
 	if macmon := collectMacmon(); macmon != nil {

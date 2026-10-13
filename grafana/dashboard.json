@@ -911,7 +911,7 @@
       },
       "id": 105,
       "panels": [],
-      "title": "Apple Silicon Thermal & Temperatures (macmon)",
+      "title": "Apple Silicon Thermal & Temperatures (macmon + PMU/Battery)",
       "type": "row"
     },
     {
@@ -948,7 +948,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
+        "w": 4,
         "x": 0,
         "y": 19
       },
@@ -1015,8 +1015,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 6,
+        "w": 4,
+        "x": 4,
         "y": 19
       },
       "id": 19,
@@ -1046,6 +1046,140 @@
         }
       ],
       "title": "GPU Temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": ""
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 35
+              },
+              {
+                "color": "red",
+                "value": 45
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 19
+      },
+      "id": 31,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "expr": "macos_battery_temperature_celsius{instance=~\"\"}",
+          "legendFormat": "Battery Temp",
+          "refId": "A"
+        }
+      ],
+      "title": "Battery Temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": ""
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "orange",
+                "value": 40
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 19
+      },
+      "id": 32,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "12.3.1",
+      "targets": [
+        {
+          "expr": "macos_virtual_temperature_celsius{instance=~\"\"}",
+          "legendFormat": "PMU Virtual Temp",
+          "refId": "A"
+        }
+      ],
+      "title": "PMU Enclosure Temp",
       "type": "stat"
     },
     {
@@ -1082,8 +1216,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 12,
+        "w": 4,
+        "x": 16,
         "y": 19
       },
       "id": 20,
@@ -1149,8 +1283,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 18,
+        "w": 4,
+        "x": 20,
         "y": 19
       },
       "id": 21,
@@ -1284,6 +1418,44 @@
                 "value": 2
               }
             ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Battery Temperature"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "PMU Enclosure Temperature"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 2
+              }
+            ]
           }
         ]
       },
@@ -1322,9 +1494,19 @@
           "expr": "macos_gpu_temp_celsius{instance=~\"$instance\"}",
           "legendFormat": "GPU Temperature",
           "refId": "GPU"
+        },
+        {
+          "expr": "macos_battery_temperature_celsius{instance=~\"\"}",
+          "legendFormat": "Battery Temperature",
+          "refId": "Battery"
+        },
+        {
+          "expr": "macos_virtual_temperature_celsius{instance=~\"\"}",
+          "legendFormat": "PMU Enclosure Temperature",
+          "refId": "PMU"
         }
       ],
-      "title": "Thermal History (CPU & GPU Die Temperatures)",
+      "title": "Thermal History (CPU, GPU, PMU & Battery Temperatures)",
       "type": "timeseries"
     },
     {

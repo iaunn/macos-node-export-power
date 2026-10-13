@@ -13,6 +13,8 @@ A lightweight macOS power and battery telemetry collector for Prometheus & `node
 | `macos_battery_charge_watts` | Gauge | Battery charging power in Watts (`+` charging, `-` discharging) |
 | `macos_adapter_max_watts` | Gauge | Negotiated adapter maximum capacity rating (e.g., 60W, 96W, 140W) |
 | `macos_battery_charging` | Gauge | `1` if battery is actively charging, `0` otherwise |
+| `macos_battery_temperature_celsius` | Gauge | Battery temperature in degrees Celsius (via `AppleSmartBattery`) |
+| `macos_virtual_temperature_celsius` | Gauge | PMU virtual enclosure thermal temperature in degrees Celsius (via `AppleSmartBattery`) |
 | `macos_cpu_temp_celsius` | Gauge | Average CPU die temperature in Celsius (via `macmon`) |
 | `macos_gpu_temp_celsius` | Gauge | Average GPU die temperature in Celsius (via `macmon`) |
 | `macos_cpu_power_watts` | Gauge | Active CPU silicon power in Watts (via `macmon`) |
