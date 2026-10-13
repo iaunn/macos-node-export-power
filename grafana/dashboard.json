@@ -973,7 +973,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macmon_cpu_temp_celsius{instance=~\"\"} or macmon_cpu_temp_celsius",
+          "expr": "macos_cpu_temp_celsius{instance=~\"\"}",
           "legendFormat": "CPU Temp",
           "refId": "A"
         }
@@ -1040,7 +1040,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macmon_gpu_temp_celsius{instance=~\"\"} or macmon_gpu_temp_celsius",
+          "expr": "macos_gpu_temp_celsius{instance=~\"\"}",
           "legendFormat": "GPU Temp",
           "refId": "A"
         }
@@ -1107,7 +1107,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "max(macmon_fan_speed_rpm{instance=~\"\"}) or max(macmon_fan_speed_rpm)",
+          "expr": "macos_fan_speed_rpm{instance=~\"\"}",
           "legendFormat": "Max Fan Speed",
           "refId": "A"
         }
@@ -1174,7 +1174,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macmon_cpu_power_watts{instance=~\"\"} or macmon_cpu_power_watts",
+          "expr": "macos_cpu_power_watts{instance=~\"\"}",
           "legendFormat": "CPU Power",
           "refId": "A"
         }
@@ -1314,12 +1314,12 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macmon_cpu_temp_celsius{instance=~\"\"} or macmon_cpu_temp_celsius",
+          "expr": "macos_cpu_temp_celsius{instance=~\"\"}",
           "legendFormat": "CPU Temperature",
           "refId": "CPU"
         },
         {
-          "expr": "macmon_gpu_temp_celsius{instance=~\"\"} or macmon_gpu_temp_celsius",
+          "expr": "macos_gpu_temp_celsius{instance=~\"\"}",
           "legendFormat": "GPU Temperature",
           "refId": "GPU"
         }

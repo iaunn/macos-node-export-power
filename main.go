@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -44,6 +45,31 @@ func extractBool(re *regexp.Regexp, text string) bool {
 	return false
 }
 
+type MacmonData struct {
+	Temp struct {
+		CPUTempAvg float64 `json:"cpu_temp_avg"`
+		GPUTempAvg float64 `json:"gpu_temp_avg"`
+	} `json:"temp"`
+	Fans []struct {
+		Name string  `json:"name"`
+		RPM  float64 `json:"rpm"`
+	} `json:"fans"`
+	CPUPower float64 `json:"cpu_power"`
+	GPUPower float64 `json:"gpu_power"`
+}
+
+func collectMacmon() *MacmonData {
+	out, err := exec.Command("macmon", "pipe", "-s", "1").Output()
+	if err != nil {
+		return nil
+	}
+	var data MacmonData
+	if err := json.Unmarshal(out, &data); err != nil {
+		return nil
+	}
+	return &data
+}
+
 func collectAndWrite(outDir string) error {
 	out, err := exec.Command("ioreg", "-r", "-n", "AppleSmartBattery").Output()
 	if err != nil {
@@ -74,8 +100,6 @@ func collectAndWrite(outDir string) error {
 
 	// Calculate battery charge/discharge watts
 	var batteryChargeWatts float64
-	// In macOS, Amperage is signed int64, but represented as uint64 when negative in some ioreg fields
-	// If amperage > 0x7FFFFFFF, it is negative (discharging)
 	var amperageMA float64
 	if amperageRaw > 0x7FFFFFFFFFFFFFFF {
 		amperageMA = float64(int64(uint64(amperageRaw)))
@@ -90,7 +114,6 @@ func collectAndWrite(outDir string) error {
 	}
 
 	// System load (actual machine power consumed)
-	// SystemEnergyConsumed in PowerTelemetryData reflects true instantaneous consumption
 	var systemLoadWatts float64
 	if energyConsumedMW > 0 {
 		systemLoadWatts = energyConsumedMW / 1000.0
@@ -125,6 +148,39 @@ macos_adapter_max_watts %.0f
 # TYPE macos_battery_charging gauge
 macos_battery_charging %.0f
 `, adapterPowerWatts, systemLoadWatts, batteryChargeWatts, adapterWatts, isChargingVal)
+
+	// Fetch macmon metrics if available
+	if macmon := collectMacmon(); macmon != nil {
+		content += fmt.Sprintf(`
+# HELP macos_cpu_temp_celsius Average CPU temperature in Celsius
+# TYPE macos_cpu_temp_celsius gauge
+macos_cpu_temp_celsius %.2f
+
+# HELP macos_gpu_temp_celsius Average GPU temperature in Celsius
+# TYPE macos_gpu_temp_celsius gauge
+macos_gpu_temp_celsius %.2f
+
+# HELP macos_cpu_power_watts CPU core power consumption in Watts
+# TYPE macos_cpu_power_watts gauge
+macos_cpu_power_watts %.3f
+
+# HELP macos_gpu_power_watts GPU power consumption in Watts
+# TYPE macos_gpu_power_watts gauge
+macos_gpu_power_watts %.3f
+`, macmon.Temp.CPUTempAvg, macmon.Temp.GPUTempAvg, macmon.CPUPower, macmon.GPUPower)
+
+		var maxFan float64
+		for _, fan := range macmon.Fans {
+			if fan.RPM > maxFan {
+				maxFan = fan.RPM
+			}
+		}
+		content += fmt.Sprintf(`
+# HELP macos_fan_speed_rpm Maximum fan speed in RPM
+# TYPE macos_fan_speed_rpm gauge
+macos_fan_speed_rpm %.0f
+`, maxFan)
+	}
 
 	// Atomic write using a temp file in the same directory
 	tmpFile := filepath.Join(outDir, fmt.Sprintf("macos_power.prom.tmp-%d", os.Getpid()))
