@@ -917,7 +917,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -973,7 +973,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_cpu_temp_celsius{instance=~\"\"}",
+          "expr": "macos_cpu_temp_celsius{instance=~\"$instance\"}",
           "legendFormat": "CPU Temp",
           "refId": "A"
         }
@@ -984,7 +984,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1040,7 +1040,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_gpu_temp_celsius{instance=~\"\"}",
+          "expr": "macos_gpu_temp_celsius{instance=~\"$instance\"}",
           "legendFormat": "GPU Temp",
           "refId": "A"
         }
@@ -1051,7 +1051,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1107,7 +1107,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_fan_speed_rpm{instance=~\"\"}",
+          "expr": "macos_fan_speed_rpm{instance=~\"$instance\"}",
           "legendFormat": "Max Fan Speed",
           "refId": "A"
         }
@@ -1118,7 +1118,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1174,7 +1174,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_cpu_power_watts{instance=~\"\"}",
+          "expr": "macos_cpu_power_watts{instance=~\"$instance\"}",
           "legendFormat": "CPU Power",
           "refId": "A"
         }
@@ -1185,7 +1185,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1314,12 +1314,12 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_cpu_temp_celsius{instance=~\"\"}",
+          "expr": "macos_cpu_temp_celsius{instance=~\"$instance\"}",
           "legendFormat": "CPU Temperature",
           "refId": "CPU"
         },
         {
-          "expr": "macos_gpu_temp_celsius{instance=~\"\"}",
+          "expr": "macos_gpu_temp_celsius{instance=~\"$instance\"}",
           "legendFormat": "GPU Temperature",
           "refId": "GPU"
         }
@@ -1343,7 +1343,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1399,7 +1399,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_ane_power_watts{instance=~\"\"}",
+          "expr": "macos_ane_power_watts{instance=~\"$instance\"}",
           "legendFormat": "ANE Power",
           "refId": "A"
         }
@@ -1410,7 +1410,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1466,7 +1466,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_ram_power_watts{instance=~\"\"}",
+          "expr": "macos_ram_power_watts{instance=~\"$instance\"}",
           "legendFormat": "RAM Power",
           "refId": "A"
         }
@@ -1477,7 +1477,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1533,7 +1533,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_gpu_active_ratio{instance=~\"\"}",
+          "expr": "macos_gpu_active_ratio{instance=~\"$instance\"}",
           "legendFormat": "GPU Usage",
           "refId": "A"
         }
@@ -1544,7 +1544,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1592,7 +1592,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_ecpu_freq_mhz{instance=~\"\"} * 1000000",
+          "expr": "macos_ecpu_freq_mhz{instance=~\"$instance\"} * 1000000",
           "legendFormat": "E-CPU Clock",
           "refId": "A"
         }
@@ -1603,7 +1603,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1651,7 +1651,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_pcpu_freq_mhz{instance=~\"\"} * 1000000",
+          "expr": "macos_pcpu_freq_mhz{instance=~\"$instance\"} * 1000000",
           "legendFormat": "P-CPU Clock",
           "refId": "A"
         }
@@ -1662,7 +1662,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1710,7 +1710,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_gpu_freq_mhz{instance=~\"\"} * 1000000",
+          "expr": "macos_gpu_freq_mhz{instance=~\"$instance\"} * 1000000",
           "legendFormat": "GPU Clock",
           "refId": "A"
         }
@@ -1721,7 +1721,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1864,22 +1864,22 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_cpu_power_watts{instance=~\"\"}",
+          "expr": "macos_cpu_power_watts{instance=~\"$instance\"}",
           "legendFormat": "CPU Power",
           "refId": "CPU"
         },
         {
-          "expr": "macos_gpu_power_watts{instance=~\"\"}",
+          "expr": "macos_gpu_power_watts{instance=~\"$instance\"}",
           "legendFormat": "GPU Power",
           "refId": "GPU"
         },
         {
-          "expr": "macos_ane_power_watts{instance=~\"\"}",
+          "expr": "macos_ane_power_watts{instance=~\"$instance\"}",
           "legendFormat": "ANE Power (NPU)",
           "refId": "ANE"
         },
         {
-          "expr": "macos_ram_power_watts{instance=~\"\"}",
+          "expr": "macos_ram_power_watts{instance=~\"$instance\"}",
           "legendFormat": "RAM Controller Power",
           "refId": "RAM"
         }
@@ -1890,7 +1890,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2017,17 +2017,17 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_pcpu_freq_mhz{instance=~\"\"} * 1000000",
+          "expr": "macos_pcpu_freq_mhz{instance=~\"$instance\"} * 1000000",
           "legendFormat": "Performance Cores (P-CPU)",
           "refId": "PCPU"
         },
         {
-          "expr": "macos_ecpu_freq_mhz{instance=~\"\"} * 1000000",
+          "expr": "macos_ecpu_freq_mhz{instance=~\"$instance\"} * 1000000",
           "legendFormat": "Efficiency Cores (E-CPU)",
           "refId": "ECPU"
         },
         {
-          "expr": "macos_gpu_freq_mhz{instance=~\"\"} * 1000000",
+          "expr": "macos_gpu_freq_mhz{instance=~\"$instance\"} * 1000000",
           "legendFormat": "Graphics Cluster (GPU)",
           "refId": "GPU"
         }

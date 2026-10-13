@@ -66,13 +66,34 @@ type MacmonData struct {
 	GPUActiveRatio float64 `json:"gpu_active_ratio"`
 }
 
+// findMacmon locates the macmon binary. PM2/launchd often run with a minimal
+// PATH that lacks Homebrew's bin directory, so check common locations too.
+func findMacmon() string {
+	if p, err := exec.LookPath("macmon"); err == nil {
+		return p
+	}
+	for _, p := range []string{"/opt/homebrew/bin/macmon", "/usr/local/bin/macmon"} {
+		if _, err := os.Stat(p); err == nil {
+			return p
+		}
+	}
+	return ""
+}
+
 func collectMacmon() *MacmonData {
-	out, err := exec.Command("macmon", "pipe", "-s", "1").Output()
+	bin := findMacmon()
+	if bin == "" {
+		log.Printf("macmon not found; skipping thermal/SoC metrics")
+		return nil
+	}
+	out, err := exec.Command(bin, "pipe", "-s", "1").Output()
 	if err != nil {
+		log.Printf("macmon error: %v", err)
 		return nil
 	}
 	var data MacmonData
 	if err := json.Unmarshal(out, &data); err != nil {
+		log.Printf("macmon parse error: %v", err)
 		return nil
 	}
 	return &data
