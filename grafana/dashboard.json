@@ -666,7 +666,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "semi-dark-blue",
+                "color": "blue",
                 "value": 0
               }
             ]
@@ -833,7 +833,7 @@
               {
                 "id": "color",
                 "value": {
-                  "fixedColor": "semi-dark-blue",
+                  "fixedColor": "blue",
                   "mode": "fixed"
                 }
               },
@@ -1051,7 +1051,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1107,7 +1107,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_battery_temperature_celsius{instance=~\"\"}",
+          "expr": "macos_battery_temperature_celsius{instance=~\"$instance\"}",
           "legendFormat": "Battery Temp",
           "refId": "A"
         }
@@ -1118,7 +1118,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": ""
+        "uid": "${datasource}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1174,7 +1174,7 @@
       "pluginVersion": "12.3.1",
       "targets": [
         {
-          "expr": "macos_virtual_temperature_celsius{instance=~\"\"}",
+          "expr": "macos_virtual_temperature_celsius{instance=~\"$instance\"}",
           "legendFormat": "PMU Virtual Temp",
           "refId": "A"
         }
@@ -1330,7 +1330,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "Temperature (\u00b0C)",
+            "axisLabel": "Temperature (°C)",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
@@ -1496,12 +1496,12 @@
           "refId": "GPU"
         },
         {
-          "expr": "macos_battery_temperature_celsius{instance=~\"\"}",
+          "expr": "macos_battery_temperature_celsius{instance=~\"$instance\"}",
           "legendFormat": "Battery Temperature",
           "refId": "Battery"
         },
         {
-          "expr": "macos_virtual_temperature_celsius{instance=~\"\"}",
+          "expr": "macos_virtual_temperature_celsius{instance=~\"$instance\"}",
           "legendFormat": "PMU Enclosure Temperature",
           "refId": "PMU"
         }
