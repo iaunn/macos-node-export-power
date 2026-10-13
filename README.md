@@ -17,6 +17,12 @@ A lightweight macOS power and battery telemetry collector for Prometheus & `node
 | `macos_gpu_temp_celsius` | Gauge | Average GPU die temperature in Celsius (via `macmon`) |
 | `macos_cpu_power_watts` | Gauge | Active CPU silicon power in Watts (via `macmon`) |
 | `macos_gpu_power_watts` | Gauge | Active GPU silicon power in Watts (via `macmon`) |
+| `macos_ane_power_watts` | Gauge | Apple Neural Engine / AI hardware power in Watts (via `macmon`) |
+| `macos_ram_power_watts` | Gauge | Unified RAM memory controller power in Watts (via `macmon`) |
+| `macos_gpu_active_ratio` | Gauge | GPU utilization active ratio `0.0` - `1.0` (via `macmon`) |
+| `macos_ecpu_freq_mhz` | Gauge | Efficiency CPU cluster clock speed in MHz (via `macmon`) |
+| `macos_pcpu_freq_mhz` | Gauge | Performance CPU cluster clock speed in MHz (via `macmon`) |
+| `macos_gpu_freq_mhz` | Gauge | Graphics cluster clock speed in MHz (via `macmon`) |
 | `macos_fan_speed_rpm` | Gauge | Maximum fan speed in RPM (via `macmon`) |
 
 ---

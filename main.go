@@ -54,8 +54,16 @@ type MacmonData struct {
 		Name string  `json:"name"`
 		RPM  float64 `json:"rpm"`
 	} `json:"fans"`
-	CPUPower float64 `json:"cpu_power"`
-	GPUPower float64 `json:"gpu_power"`
+	CPUPower       float64 `json:"cpu_power"`
+	GPUPower       float64 `json:"gpu_power"`
+	ANEPower       float64 `json:"ane_power"`
+	RAMPower       float64 `json:"ram_power"`
+	AllPower       float64 `json:"all_power"`
+	SysPower       float64 `json:"sys_power"`
+	ECPUFreqMHz    float64 `json:"ecpu_freq_mhz"`
+	PCPUFreqMHz    float64 `json:"pcpu_freq_mhz"`
+	GPUFreqMHz     float64 `json:"gpu_freq_mhz"`
+	GPUActiveRatio float64 `json:"gpu_active_ratio"`
 }
 
 func collectMacmon() *MacmonData {
@@ -167,7 +175,42 @@ macos_cpu_power_watts %.3f
 # HELP macos_gpu_power_watts GPU power consumption in Watts
 # TYPE macos_gpu_power_watts gauge
 macos_gpu_power_watts %.3f
-`, macmon.Temp.CPUTempAvg, macmon.Temp.GPUTempAvg, macmon.CPUPower, macmon.GPUPower)
+
+# HELP macos_ane_power_watts Apple Neural Engine power consumption in Watts
+# TYPE macos_ane_power_watts gauge
+macos_ane_power_watts %.3f
+
+# HELP macos_ram_power_watts Unified RAM power consumption in Watts
+# TYPE macos_ram_power_watts gauge
+macos_ram_power_watts %.3f
+
+# HELP macos_gpu_active_ratio GPU utilization active ratio (0.0 to 1.0)
+# TYPE macos_gpu_active_ratio gauge
+macos_gpu_active_ratio %.4f
+
+# HELP macos_ecpu_freq_mhz Efficiency CPU cluster frequency in MHz
+# TYPE macos_ecpu_freq_mhz gauge
+macos_ecpu_freq_mhz %.0f
+
+# HELP macos_pcpu_freq_mhz Performance CPU cluster frequency in MHz
+# TYPE macos_pcpu_freq_mhz gauge
+macos_pcpu_freq_mhz %.0f
+
+# HELP macos_gpu_freq_mhz GPU frequency in MHz
+# TYPE macos_gpu_freq_mhz gauge
+macos_gpu_freq_mhz %.0f
+`,
+			macmon.Temp.CPUTempAvg,
+			macmon.Temp.GPUTempAvg,
+			macmon.CPUPower,
+			macmon.GPUPower,
+			macmon.ANEPower,
+			macmon.RAMPower,
+			macmon.GPUActiveRatio,
+			macmon.ECPUFreqMHz,
+			macmon.PCPUFreqMHz,
+			macmon.GPUFreqMHz,
+		)
 
 		var maxFan float64
 		for _, fan := range macmon.Fans {
