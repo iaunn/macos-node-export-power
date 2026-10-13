@@ -138,6 +138,39 @@ macos_system_load_watts 15.965
 
 ---
 
-## 5. Grafana Dashboard
+## 5. CPU/GPU Temperature & SOC Metrics (`macmon`)
 
-Import [grafana/dashboard.json](grafana/dashboard.json) into your Grafana instance. It includes the **macOS Power & Energy Consumption** row with real-time stat gauges and a full-width time series graph.
+For Apple Silicon CPU/GPU temperatures and chip power without `sudo`, run [`macmon`](https://github.com/vladkens/macmon) as a background Prometheus metrics server.
+
+### Run `macmon serve` via PM2:
+```bash
+pm2 start macmon --name "macmon" -- serve --host 127.0.0.1 -p 9105
+```
+
+Or run via `launchd`:
+```bash
+macmon serve --install
+```
+
+### Prometheus Scrape Configuration
+Add `macmon` as a scrape target in your `prometheus.yml`:
+```yaml
+scrape_configs:
+  - job_name: 'node'
+    static_configs:
+      - targets: ['localhost:9100']
+
+  - job_name: 'macmon'
+    static_configs:
+      - targets: ['localhost:9105']
+```
+
+---
+
+## 6. Grafana Dashboard
+
+Import [grafana/dashboard.json](grafana/dashboard.json) into your Grafana instance. It includes:
+* **macOS System Overview**: CPU, Memory, Load, Battery level.
+* **macOS Power & Energy Consumption**: Adapter power, system load, battery charging watts.
+* **Apple Silicon Thermal & Temperatures (`macmon`)**: Real-time CPU & GPU die temperatures, Fan speed, and CPU core power.
+
